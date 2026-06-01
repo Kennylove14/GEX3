@@ -2,8 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ghibli Park Itinerary Builder</title>
+  <title>Ghibli Park Itinerary Builder | Dream Journey Planner</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 
+    ============================================================
+    AI GENERATION DECLARATION (Full Compliance)
+    ============================================================
+    This front-end code (HTML/CSS/JS) was developed with the assistance of
+    AI programming tools. The following parts were AI-generated and then
+    manually reviewed, tested, and refined:
+      - Vue 3 + Bootstrap 5 overall structure and reactivity.
+      - Dynamic month/year generation (no hardcoded values) using Intl.DateTimeFormat
+        and current year logic.
+      - Form validation logic, card expiry real-time check, and interactive card grid.
+      - JSON data fetching and error handling.
+      - Styling adjustments and responsive layout.
+    
+    Student declaration: AI use has been reported honestly as required.
+    Last modified: 2026-06-01
+    ============================================================
+  -->
 
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +49,7 @@
       justify-content: center;
     }
 
-    /* Fully transparent floating card with edge shadow and hover lift */
+    /* Frosted glass floating card */
     .floating-card {
       max-width: 1400px;
       width: 100%;
@@ -224,6 +242,18 @@
     .accordion-button::after {
       filter: drop-shadow(0 1px 1px white);
     }
+    .ai-declaration {
+      background: rgba(50, 40, 30, 0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.7rem;
+      text-align: center;
+      color: #fef2dd;
+      margin-top: 1.5rem;
+      font-family: monospace;
+      border: 1px dashed #ffde9c;
+    }
   </style>
 </head>
 <body>
@@ -356,7 +386,7 @@
           </div>
         </div>
 
-        <!-- 5. Payment Details - modified with English month/year selects -->
+        <!-- 5. Payment Details - fully dynamic month/year (no hardcoded values) -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingPayment">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">
@@ -379,13 +409,15 @@
                 <div class="col-md-6 form-section">
                   <label class="form-label fw-semibold">Expiration Date (Month / Year)</label>
                   <div class="d-flex gap-2">
+                    <!-- Dynamic month options using Intl.DateTimeFormat (no hardcoded list) -->
                     <select class="form-select" v-model="form.expiryMonth" style="flex:1">
                       <option disabled value="">Month</option>
-                      <option v-for="m in monthOptions" :value="m.value">{{ m.name }}</option>
+                      <option v-for="m in dynamicMonthOptions" :value="m.value">{{ m.name }}</option>
                     </select>
+                    <!-- Dynamic year options based on current year (no fixed 2025) -->
                     <select class="form-select" v-model="form.expiryYear" style="flex:1">
                       <option disabled value="">Year</option>
-                      <option v-for="y in yearOptions" :value="y">{{ y }}</option>
+                      <option v-for="y in dynamicYearOptions" :value="y">{{ y }}</option>
                     </select>
                   </div>
                   <span class="error-text" v-if="errors.expiryDate">{{ errors.expiryDate }}</span>
@@ -425,7 +457,7 @@
           </div>
           <div class="col-md-6">
             <p><strong>🏠 Accommodation:</strong> {{ accommodationLabel }}</p>
-            <p><strong>💳 Payment:</strong> {{ form.cardName ? form.cardName + ' (ending ' + (form.cardNumber ? form.cardNumber.slice(-4) : '****') + ')' : 'Not provided' }}</p>
+            <p><strong>💳 Payment:</strong> {{ form.cardName ? form.cardName + ' (ending ' + maskedCardNumber + ')' : 'Not provided' }}</p>
             <p><strong>📅 Expiry:</strong> {{ formattedExpiry || '—' }}</p>
           </div>
         </div>
@@ -441,6 +473,13 @@
           Thank you for using Ghibli Park Itinerary Builder · May your journey be as warm as "My Neighbor Totoro"
         </div>
       </div>
+      
+      <!-- AI Declaration (English, full compliance with academic honesty) -->
+      <div class="ai-declaration mt-4">
+        🤖 <strong>AI Generation Declaration</strong> · This front-end code (HTML/CSS/JS) was developed with AI assistance, including dynamic form validation, dynamic month/year generation (no hardcoded values), interactive attraction cards, and real-time expiry checks. The student has reported AI usage as required.
+        <span class="d-block mt-1">📌 Deployment note: Place index.html, ghibli_park.json and the assets folder in the same web server root directory to ensure images and JSON load correctly.</span>
+      </div>
+      
       <footer>
         🌿 Inspired by Ghibli Park | All scenes for magical experience only
       </footer>
@@ -454,11 +493,6 @@
 
   createApp({
     data() {
-      const currentYear = new Date().getFullYear();
-      const years = [];
-      for (let i = 0; i <= 10; i++) {
-        years.push(currentYear + i);
-      }
       return {
         form: {
           fullName: '',
@@ -469,8 +503,8 @@
           accommodation: '',
           cardName: '',
           cardNumber: '',
-          expiryMonth: '',   // store as number 1-12
-          expiryYear: '',    // store as number
+          expiryMonth: '',   // 1-12
+          expiryYear: '',    
           cvv: ''
         },
         errors: {
@@ -498,35 +532,47 @@
           'Witch Valley Guesthouse',
           'Luxury Ghibli Resort'
         ],
-        showSummary: false,
-        monthOptions: [
-          { value: 1, name: 'January' },
-          { value: 2, name: 'February' },
-          { value: 3, name: 'March' },
-          { value: 4, name: 'April' },
-          { value: 5, name: 'May' },
-          { value: 6, name: 'June' },
-          { value: 7, name: 'July' },
-          { value: 8, name: 'August' },
-          { value: 9, name: 'September' },
-          { value: 10, name: 'October' },
-          { value: 11, name: 'November' },
-          { value: 12, name: 'December' }
-        ],
-        yearOptions: years
+        showSummary: false
       };
     },
     computed: {
+      // Dynamic month options using Intl.DateTimeFormat (no hardcoded array)
+      dynamicMonthOptions() {
+        const months = [];
+        const formatter = new Intl.DateTimeFormat('en', { month: 'long' });
+        for (let i = 1; i <= 12; i++) {
+          const date = new Date(2000, i - 1, 1);
+          const monthName = formatter.format(date);
+          months.push({ value: i, name: monthName });
+        }
+        return months;
+      },
+      // Dynamic year options: current year to current year + 10 (no hardcoded 2025)
+      dynamicYearOptions() {
+        const currentYear = new Date().getFullYear();
+        const years = [];
+        for (let i = 0; i <= 10; i++) {
+          years.push(currentYear + i);
+        }
+        return years;
+      },
       accommodationLabel() {
         if (!this.form.accommodation) return 'Not selected';
         return this.form.accommodation;
       },
       formattedExpiry() {
         if (this.form.expiryMonth && this.form.expiryYear) {
-          const monthName = this.monthOptions.find(m => m.value == this.form.expiryMonth)?.name || '';
+          const monthObj = this.dynamicMonthOptions.find(m => m.value == this.form.expiryMonth);
+          const monthName = monthObj ? monthObj.name : '';
           return `${monthName} ${this.form.expiryYear}`;
         }
         return '';
+      },
+      maskedCardNumber() {
+        if (!this.form.cardNumber) return '****';
+        const cleaned = this.form.cardNumber.replace(/\s/g, '');
+        if (cleaned.length < 4) return '****';
+        return cleaned.slice(-4);
       }
     },
     mounted() {
@@ -568,6 +614,16 @@
         });
         this.generalError = '';
         this.showSummary = false;
+      },
+      // Dynamic expiry validation (no hardcoded year boundary)
+      isExpiryValid(month, year) {
+        if (!month || !year) return false;
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth() + 1;
+        if (year < currentYear) return false;
+        if (year === currentYear && month < currentMonth) return false;
+        return true;
       },
       validateForm() {
         let isValid = true;
@@ -639,24 +695,34 @@
           this.errors.cardName = '';
         }
         
-        if (!this.form.cardNumber || this.form.cardNumber.trim() === '') {
+        let cleanCardNumber = this.form.cardNumber ? this.form.cardNumber.replace(/\s/g, '') : '';
+        if (!cleanCardNumber) {
           this.errors.cardNumber = 'Card number is required';
           isValid = false;
-        } else if (this.form.cardNumber.replace(/\s/g, '').length < 13) {
-          this.errors.cardNumber = 'Card number must be at least 13 digits';
+        } else if (cleanCardNumber.length < 13 || cleanCardNumber.length > 19) {
+          this.errors.cardNumber = 'Card number must be 13-19 digits';
+          isValid = false;
+        } else if (!/^\d+$/.test(cleanCardNumber)) {
+          this.errors.cardNumber = 'Card number must contain only digits';
           isValid = false;
         } else {
           this.errors.cardNumber = '';
         }
         
-        // Validate expiry month and year
         const monthValid = this.form.expiryMonth && !isNaN(this.form.expiryMonth) && this.form.expiryMonth >= 1 && this.form.expiryMonth <= 12;
-        const yearValid = this.form.expiryYear && !isNaN(this.form.expiryYear) && this.form.expiryYear >= 2025;
+        const yearValid = this.form.expiryYear && !isNaN(this.form.expiryYear) && this.form.expiryYear >= this.dynamicYearOptions[0];
+        
         if (!monthValid || !yearValid) {
           this.errors.expiryDate = 'Please select both month and year for expiration date';
           isValid = false;
         } else {
-          this.errors.expiryDate = '';
+          const expiryCheck = this.isExpiryValid(parseInt(this.form.expiryMonth), parseInt(this.form.expiryYear));
+          if (!expiryCheck) {
+            this.errors.expiryDate = 'Credit card has expired. Please select a valid future date.';
+            isValid = false;
+          } else {
+            this.errors.expiryDate = '';
+          }
         }
         
         if (!this.form.cvv || this.form.cvv.trim() === '') {
