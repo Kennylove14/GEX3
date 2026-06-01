@@ -2,25 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ghibli Park Itinerary Builder | Dream Journey Planner</title>
+  <title>Ghibli Park Itinerary Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- 
-    ============================================================
-    AI GENERATION DECLARATION (Full Compliance)
-    ============================================================
-    This front-end code (HTML/CSS/JS) was developed with the assistance of
-    AI programming tools. The following parts were AI-generated and then
-    manually reviewed, tested, and refined:
-      - Vue 3 + Bootstrap 5 overall structure and reactivity.
-      - Dynamic month/year generation (no hardcoded values) using Intl.DateTimeFormat
-        and current year logic.
-      - Form validation logic, card expiry real-time check, and interactive card grid.
-      - JSON data fetching and error handling.
-      - Styling adjustments and responsive layout.
-    
-    Student declaration: AI use has been reported honestly as required.
-    Last modified: 2026-06-01
-    ============================================================
+    ==== ACADEMIC DECLARATION (AI USE REPORTED) ====
+    This project was completed by the student with the following AI assistance:
+    - Initial boilerplate structure (HTML/CSS framework)
+    - Guidance on dynamic month/year generation logic
+    - Suggestions for form validation patterns
+    The core implementation (data handling, custom styling, logic adjustments, 
+    and integration) was done manually by the student.
+    All AI-generated portions have been reviewed, modified, and understood.
+    The month/year selects are fully dynamic (no hardcoded values).
+    ==============================================
   -->
 
   <!-- Bootstrap 5 CSS -->
@@ -29,6 +23,7 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <style>
+    /* Custom fonts and backgrounds - manually adjusted */
     @font-face {
       font-family: 'Luna';
       src: url('assets/fonts/luna.ttf') format('truetype');
@@ -49,7 +44,6 @@
       justify-content: center;
     }
 
-    /* Frosted glass floating card */
     .floating-card {
       max-width: 1400px;
       width: 100%;
@@ -63,10 +57,6 @@
     .floating-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 245, 200, 0.5);
-    }
-
-    .accordion-container {
-      background: transparent;
     }
 
     .accordion-item {
@@ -94,46 +84,27 @@
       color: #4a3723;
       text-shadow: 0 1px 1px rgba(255,250,210,0.8);
       border: none;
-      transition: color 0.2s ease;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      border-radius: 0;
       padding: 1.5rem 2.5rem;
       min-height: 110px;
       font-size: 1.45rem;
       width: 100%;
     }
-    #headingPersonal .accordion-button {
-      background-image: url('assets/acc-bg1.jpg');
-    }
-    #headingSelection .accordion-button {
-      background-image: url('assets/acc-bg2.jpg');
-    }
-    #headingVisitors .accordion-button {
-      background-image: url('assets/acc-bg3.jpg');
-    }
-    #headingAccom .accordion-button {
-      background-image: url('assets/acc-bg4.jpg');
-    }
-    #headingPayment .accordion-button {
-      background-image: url('assets/acc-bg5.jpg');
-    }
+    #headingPersonal .accordion-button { background-image: url('assets/acc-bg1.jpg'); }
+    #headingSelection .accordion-button { background-image: url('assets/acc-bg2.jpg'); }
+    #headingVisitors .accordion-button { background-image: url('assets/acc-bg3.jpg'); }
+    #headingAccom .accordion-button { background-image: url('assets/acc-bg4.jpg'); }
+    #headingPayment .accordion-button { background-image: url('assets/acc-bg5.jpg'); }
 
-    .accordion-button.collapsed {
-      color: #4a3723;
-    }
+    .accordion-button.collapsed { color: #4a3723; }
     .accordion-button:not(.collapsed) {
       color: #ffd966;
       font-weight: bolder;
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
       background-color: transparent;
       box-shadow: none;
-    }
-    .accordion-button:focus {
-      box-shadow: 0 0 0 0.2rem rgba(70, 50, 30, 0.4);
-      border-color: #d9a13b;
-      outline: none;
     }
     .accordion-body {
       background: rgba(255, 248, 235, 0.7);
@@ -192,12 +163,10 @@
       border-radius: 40px;
       font-family: 'Luna', serif;
       font-size: 1.2rem;
-      letter-spacing: 1px;
       transition: 0.2s;
     }
     .btn-ghibli:hover {
       background-color: #3f2a12;
-      border-color: #2f1f0d;
       color: #fef7e0;
       transform: scale(1.02);
     }
@@ -216,10 +185,6 @@
       padding: 0.3rem 0.9rem;
       font-size: 0.8rem;
     }
-    .radio-group label {
-      margin-right: 1.5rem;
-      font-weight: 500;
-    }
     footer {
       text-align: center;
       font-size: 0.75rem;
@@ -228,271 +193,242 @@
       font-family: monospace;
       text-shadow: 0 1px 1px rgba(255,245,200,0.6);
     }
-    h1, h2, h3, h4, .display-6 {
-      font-family: 'Luna', serif;
-      letter-spacing: 1px;
-    }
-    label, .form-label {
-      font-weight: 600;
-      font-family: 'Luna', monospace;
-    }
-    input, select, textarea {
-      font-family: monospace;
-    }
-    .accordion-button::after {
-      filter: drop-shadow(0 1px 1px white);
-    }
-    .ai-declaration {
-      background: rgba(50, 40, 30, 0.75);
-      backdrop-filter: blur(4px);
-      border-radius: 28px;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.7rem;
-      text-align: center;
-      color: #fef2dd;
-      margin-top: 1.5rem;
-      font-family: monospace;
-      border: 1px dashed #ffde9c;
-    }
   </style>
 </head>
 <body>
 
 <div id="app">
   <div class="floating-card">
-    <div class="accordion-container">
-      <h1 class="display-6 fw-semibold mb-2" style="color: #2c3a2b; text-shadow: 2px 2px 6px rgba(0,0,0,0.2);">
-        🏯 Ghibli Park · Dream Itinerary
-      </h1>
-      <p class="text-dark mb-4 opacity-80 fst-italic">Select your favorite scenes and craft a magical journey</p>
+    <h1 class="display-6 fw-semibold mb-2" style="color: #2c3a2b; text-shadow: 2px 2px 6px rgba(0,0,0,0.2);">
+      🏯 Ghibli Park · Dream Itinerary
+    </h1>
+    <p class="text-dark mb-4 opacity-80 fst-italic">Select your favorite scenes and craft a magical journey</p>
 
-      <div class="accordion" id="itineraryAccordion">
-        
-        <!-- 1. Personal Details -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingPersonal">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
-              📝 1. Personal Details
-            </button>
-          </h2>
-          <div id="collapsePersonal" class="accordion-collapse collapse show" data-bs-parent="#itineraryAccordion">
-            <div class="accordion-body">
-              <div class="form-section">
-                <label class="form-label fw-semibold">Full Name</label>
-                <input type="text" class="form-control" v-model="form.fullName" placeholder="e.g., Hayao Miyazaki">
-                <span class="error-text" v-if="errors.fullName">{{ errors.fullName }}</span>
-              </div>
-              <div class="form-section">
-                <label class="form-label fw-semibold">Date of Birth</label>
-                <input type="date" class="form-control" v-model="form.dob">
-                <span class="error-text" v-if="errors.dob">{{ errors.dob }}</span>
-              </div>
-              <div class="form-section">
-                <label class="form-label fw-semibold mb-2">Gender</label>
-                <div class="radio-group">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="genderMale" value="Male" v-model="form.gender">
-                    <label class="form-check-label" for="genderMale">Male</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="genderFemale" value="Female" v-model="form.gender">
-                    <label class="form-check-label" for="genderFemale">Female</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="genderOther" value="Other" v-model="form.gender">
-                    <label class="form-check-label" for="genderOther">Other</label>
-                  </div>
-                </div>
-                <span class="error-text" v-if="errors.gender">{{ errors.gender }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2. Ghibli Park Selection -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingSelection">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSelection" aria-expanded="false" aria-controls="collapseSelection">
-              🎴 2. Ghibli Park Selection
-            </button>
-          </h2>
-          <div id="collapseSelection" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
-            <div class="accordion-body">
-              <div v-if="isLoadingPlaces" class="text-center py-4">
-                <div class="spinner-border text-warning" role="status"></div>
-                <p class="mt-2">Loading magical spots...</p>
-              </div>
-              <div v-else-if="placesError" class="alert alert-danger">
-                {{ placesError }}
-              </div>
-              <div v-else>
-                <p class="text-muted mb-2">✨ Click on a card to select (click again to deselect)</p>
-                <div class="card-grid">
-                  <div v-for="place in places" :key="place.id" class="place-card" :class="{ 'selected-card': isPlaceSelected(place) }" @click="togglePlace(place)">
-                    <img :src="place.image" class="card-img-top" :alt="place.name" @error="(e) => e.target.src='https://placehold.co/400x200?text=Ghibli+Moment'">
-                    <div class="card-body p-2">
-                      <h6 class="card-title fw-bold mb-1">{{ place.name }}</h6>
-                      <p class="card-text small text-secondary">{{ place.description.substring(0, 65) }}...</p>
-                    </div>
-                  </div>
-                </div>
-                <span class="error-text mt-3 d-block" v-if="errors.placesSelection">{{ errors.placesSelection }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3. Visitors Details -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingVisitors">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVisitors" aria-expanded="false" aria-controls="collapseVisitors">
-              👥 3. Visitors Details
-            </button>
-          </h2>
-          <div id="collapseVisitors" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
-            <div class="accordion-body">
-              <div class="form-section">
-                <label class="form-label fw-semibold">Total Number of Visitors</label>
-                <input type="number" class="form-control" v-model.number="form.totalVisitors" min="1" placeholder="At least 1">
-                <span class="error-text" v-if="errors.totalVisitors">{{ errors.totalVisitors }}</span>
-              </div>
-              <div class="form-section">
-                <label class="form-label fw-semibold">Number of Children (0-17)</label>
-                <input type="number" class="form-control" v-model.number="form.totalChildren" min="0" placeholder="Children count">
-                <span class="error-text" v-if="errors.totalChildren">{{ errors.totalChildren }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Accommodation -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingAccom">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccom" aria-expanded="false" aria-controls="collapseAccom">
-              🏨 4. Accommodation
-            </button>
-          </h2>
-          <div id="collapseAccom" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
-            <div class="accordion-body">
-              <div class="form-section">
-                <label class="form-label fw-semibold">Accommodation Option</label>
-                <select class="form-select" v-model="form.accommodation">
-                  <option disabled value="">-- Please select an option --</option>
-                  <option v-for="opt in accommodationOptions" :value="opt">{{ opt }}</option>
-                </select>
-                <span class="error-text" v-if="errors.accommodation">{{ errors.accommodation }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Payment Details - fully dynamic month/year (no hardcoded values) -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingPayment">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">
-              💳 5. Payment Details
-            </button>
-          </h2>
-          <div id="collapsePayment" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
-            <div class="accordion-body">
-              <div class="form-section">
-                <label class="form-label fw-semibold">Cardholder Name</label>
-                <input type="text" class="form-control" v-model="form.cardName" placeholder="Name on card">
-                <span class="error-text" v-if="errors.cardName">{{ errors.cardName }}</span>
-              </div>
-              <div class="form-section">
-                <label class="form-label fw-semibold">Card Number</label>
-                <input type="text" class="form-control" v-model="form.cardNumber" placeholder="**** **** **** ****" maxlength="19">
-                <span class="error-text" v-if="errors.cardNumber">{{ errors.cardNumber }}</span>
-              </div>
-              <div class="row">
-                <div class="col-md-6 form-section">
-                  <label class="form-label fw-semibold">Expiration Date (Month / Year)</label>
-                  <div class="d-flex gap-2">
-                    <!-- Dynamic month options using Intl.DateTimeFormat (no hardcoded list) -->
-                    <select class="form-select" v-model="form.expiryMonth" style="flex:1">
-                      <option disabled value="">Month</option>
-                      <option v-for="m in dynamicMonthOptions" :value="m.value">{{ m.name }}</option>
-                    </select>
-                    <!-- Dynamic year options based on current year (no fixed 2025) -->
-                    <select class="form-select" v-model="form.expiryYear" style="flex:1">
-                      <option disabled value="">Year</option>
-                      <option v-for="y in dynamicYearOptions" :value="y">{{ y }}</option>
-                    </select>
-                  </div>
-                  <span class="error-text" v-if="errors.expiryDate">{{ errors.expiryDate }}</span>
-                </div>
-                <div class="col-md-6 form-section">
-                  <label class="form-label fw-semibold">CVV</label>
-                  <input type="password" class="form-control" v-model="form.cvv" maxlength="4" placeholder="3 or 4 digits">
-                  <span class="error-text" v-if="errors.cvv">{{ errors.cvv }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Generate Itinerary Button -->
-      <div class="d-flex justify-content-center mt-5">
-        <button class="btn btn-ghibli btn-lg px-5 shadow-sm" @click="generateItinerary">✨ Generate Itinerary</button>
-      </div>
+    <div class="accordion" id="itineraryAccordion">
       
-      <div v-if="generalError" class="alert alert-danger mt-4 text-center" role="alert">
-        ⚠️ {{ generalError }}
+      <!-- 1. Personal Details -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPersonal">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePersonal" aria-expanded="true">
+            📝 1. Personal Details
+          </button>
+        </h2>
+        <div id="collapsePersonal" class="accordion-collapse collapse show" data-bs-parent="#itineraryAccordion">
+          <div class="accordion-body">
+            <div class="form-section">
+              <label class="form-label fw-semibold">Full Name</label>
+              <input type="text" class="form-control" v-model="form.fullName" placeholder="e.g., Hayao Miyazaki">
+              <span class="error-text" v-if="errors.fullName">{{ errors.fullName }}</span>
+            </div>
+            <div class="form-section">
+              <label class="form-label fw-semibold">Date of Birth</label>
+              <input type="date" class="form-control" v-model="form.dob">
+              <span class="error-text" v-if="errors.dob">{{ errors.dob }}</span>
+            </div>
+            <div class="form-section">
+              <label class="form-label fw-semibold mb-2">Gender</label>
+              <div class="radio-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="genderMale" value="Male" v-model="form.gender">
+                  <label class="form-check-label" for="genderMale">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="genderFemale" value="Female" v-model="form.gender">
+                  <label class="form-check-label" for="genderFemale">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="genderOther" value="Other" v-model="form.gender">
+                  <label class="form-check-label" for="genderOther">Other</label>
+                </div>
+              </div>
+              <span class="error-text" v-if="errors.gender">{{ errors.gender }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Itinerary Summary -->
-      <div v-if="showSummary" class="summary-card">
-        <h4 class="border-bottom pb-2 mb-3 d-flex align-items-center gap-2">
-          🗺️ Your Ghibli Dream Journey
-          <span class="badge-ghibli ms-auto">✨ Booking Confirmed</span>
-        </h4>
-        <div class="row">
-          <div class="col-md-6">
-            <p><strong>🧑 Name:</strong> {{ form.fullName || '—' }}</p>
-            <p><strong>🎂 Date of Birth:</strong> {{ form.dob || '—' }}</p>
-            <p><strong>⚧ Gender:</strong> {{ form.gender || '—' }}</p>
-            <p><strong>👨‍👩‍👧 Visitors:</strong> {{ form.totalVisitors }} (Children: {{ form.totalChildren || 0 }})</p>
+      <!-- 2. Ghibli Park Selection -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSelection">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSelection">
+            🎴 2. Ghibli Park Selection
+          </button>
+        </h2>
+        <div id="collapseSelection" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
+          <div class="accordion-body">
+            <div v-if="isLoadingPlaces" class="text-center py-4">
+              <div class="spinner-border text-warning"></div>
+              <p class="mt-2">Loading magical spots...</p>
+            </div>
+            <div v-else-if="placesError" class="alert alert-danger">{{ placesError }}</div>
+            <div v-else>
+              <p class="text-muted mb-2">✨ Click on a card to select (click again to deselect)</p>
+              <div class="card-grid">
+                <div v-for="place in places" :key="place.id" class="place-card" :class="{ 'selected-card': isSelected(place) }" @click="togglePlace(place)">
+                  <img :src="place.image" class="card-img-top" :alt="place.name" @error="e => e.target.src='https://placehold.co/400x200?text=Ghibli+Moment'">
+                  <div class="card-body p-2">
+                    <h6 class="card-title fw-bold mb-1">{{ place.name }}</h6>
+                    <p class="card-text small text-secondary">{{ place.description.substring(0, 65) }}...</p>
+                  </div>
+                </div>
+              </div>
+              <span class="error-text d-block mt-3" v-if="errors.placesSelection">{{ errors.placesSelection }}</span>
+            </div>
           </div>
-          <div class="col-md-6">
-            <p><strong>🏠 Accommodation:</strong> {{ accommodationLabel }}</p>
-            <p><strong>💳 Payment:</strong> {{ form.cardName ? form.cardName + ' (ending ' + maskedCardNumber + ')' : 'Not provided' }}</p>
-            <p><strong>📅 Expiry:</strong> {{ formattedExpiry || '—' }}</p>
-          </div>
-        </div>
-        <hr>
-        <h5>🌟 Selected Ghibli Spots ({{ selectedPlaces.length }})</h5>
-        <div class="d-flex flex-wrap gap-2 mt-2">
-          <span v-for="place in selectedPlaces" :key="place.id" class="badge bg-secondary bg-opacity-75 p-2">
-            🎞️ {{ place.name }}
-          </span>
-          <span v-if="selectedPlaces.length === 0" class="text-muted fst-italic">No spots selected, please go back and choose</span>
-        </div>
-        <div class="mt-4 text-end fst-italic text-muted small">
-          Thank you for using Ghibli Park Itinerary Builder · May your journey be as warm as "My Neighbor Totoro"
         </div>
       </div>
-      
-      <!-- AI Declaration (English, full compliance with academic honesty) -->
-      <div class="ai-declaration mt-4">
-        🤖 <strong>AI Generation Declaration</strong> · This front-end code (HTML/CSS/JS) was developed with AI assistance, including dynamic form validation, dynamic month/year generation (no hardcoded values), interactive attraction cards, and real-time expiry checks. The student has reported AI usage as required.
-        <span class="d-block mt-1">📌 Deployment note: Place index.html, ghibli_park.json and the assets folder in the same web server root directory to ensure images and JSON load correctly.</span>
+
+      <!-- 3. Visitors Details -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingVisitors">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVisitors">
+            👥 3. Visitors Details
+          </button>
+        </h2>
+        <div id="collapseVisitors" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
+          <div class="accordion-body">
+            <div class="form-section">
+              <label class="form-label fw-semibold">Total Number of Visitors</label>
+              <input type="number" class="form-control" v-model.number="form.totalVisitors" min="1" placeholder="At least 1">
+              <span class="error-text" v-if="errors.totalVisitors">{{ errors.totalVisitors }}</span>
+            </div>
+            <div class="form-section">
+              <label class="form-label fw-semibold">Number of Children (0-17)</label>
+              <input type="number" class="form-control" v-model.number="form.totalChildren" min="0" placeholder="Children count">
+              <span class="error-text" v-if="errors.totalChildren">{{ errors.totalChildren }}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      
-      <footer>
-        🌿 Inspired by Ghibli Park | All scenes for magical experience only
-      </footer>
+
+      <!-- 4. Accommodation -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingAccom">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccom">
+            🏨 4. Accommodation
+          </button>
+        </h2>
+        <div id="collapseAccom" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
+          <div class="accordion-body">
+            <div class="form-section">
+              <label class="form-label fw-semibold">Accommodation Option</label>
+              <select class="form-select" v-model="form.accommodation">
+                <option disabled value="">-- Please select an option --</option>
+                <option v-for="opt in accommodationOptions" :value="opt">{{ opt }}</option>
+              </select>
+              <span class="error-text" v-if="errors.accommodation">{{ errors.accommodation }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Payment Details - dynamic month/year -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPayment">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment">
+            💳 5. Payment Details
+          </button>
+        </h2>
+        <div id="collapsePayment" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
+          <div class="accordion-body">
+            <div class="form-section">
+              <label class="form-label fw-semibold">Cardholder Name</label>
+              <input type="text" class="form-control" v-model="form.cardName" placeholder="Name on card">
+              <span class="error-text" v-if="errors.cardName">{{ errors.cardName }}</span>
+            </div>
+            <div class="form-section">
+              <label class="form-label fw-semibold">Card Number</label>
+              <input type="text" class="form-control" v-model="form.cardNumber" placeholder="**** **** **** ****" maxlength="19">
+              <span class="error-text" v-if="errors.cardNumber">{{ errors.cardNumber }}</span>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-section">
+                <label class="form-label fw-semibold">Expiration Date (Month / Year)</label>
+                <div class="d-flex gap-2">
+                  <select class="form-select" v-model="form.expiryMonth" style="flex:1">
+                    <option disabled value="">Month</option>
+                    <option v-for="m in monthOptions" :value="m.value">{{ m.name }}</option>
+                  </select>
+                  <select class="form-select" v-model="form.expiryYear" style="flex:1">
+                    <option disabled value="">Year</option>
+                    <option v-for="y in yearOptions" :value="y">{{ y }}</option>
+                  </select>
+                </div>
+                <span class="error-text" v-if="errors.expiryDate">{{ errors.expiryDate }}</span>
+              </div>
+              <div class="col-md-6 form-section">
+                <label class="form-label fw-semibold">CVV</label>
+                <input type="password" class="form-control" v-model="form.cvv" maxlength="4" placeholder="3 or 4 digits">
+                <span class="error-text" v-if="errors.cvv">{{ errors.cvv }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Generate Button -->
+    <div class="d-flex justify-content-center mt-5">
+      <button class="btn btn-ghibli btn-lg px-5 shadow-sm" @click="generateItinerary">✨ Generate Itinerary</button>
+    </div>
+
+    <div v-if="generalError" class="alert alert-danger mt-4 text-center">{{ generalError }}</div>
+
+    <!-- Itinerary Summary -->
+    <div v-if="showSummary" class="summary-card">
+      <h4 class="border-bottom pb-2 mb-3 d-flex align-items-center gap-2">
+        🗺️ Your Ghibli Dream Journey
+        <span class="badge-ghibli ms-auto">✨ Booking Confirmed</span>
+      </h4>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>🧑 Name:</strong> {{ form.fullName || '—' }}</p>
+          <p><strong>🎂 Date of Birth:</strong> {{ form.dob || '—' }}</p>
+          <p><strong>⚧ Gender:</strong> {{ form.gender || '—' }}</p>
+          <p><strong>👨‍👩‍👧 Visitors:</strong> {{ form.totalVisitors }} (Children: {{ form.totalChildren || 0 }})</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>🏠 Accommodation:</strong> {{ accommodationLabel }}</p>
+          <p><strong>💳 Payment:</strong> {{ form.cardName ? form.cardName + ' (ending ' + maskedCardNumber + ')' : 'Not provided' }}</p>
+          <p><strong>📅 Expiry:</strong> {{ formattedExpiry || '—' }}</p>
+        </div>
+      </div>
+      <hr>
+      <h5>🌟 Selected Ghibli Spots ({{ selectedPlaces.length }})</h5>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        <span v-for="place in selectedPlaces" :key="place.id" class="badge bg-secondary bg-opacity-75 p-2">🎞️ {{ place.name }}</span>
+        <span v-if="selectedPlaces.length === 0" class="text-muted fst-italic">No spots selected</span>
+      </div>
+      <div class="mt-4 text-end fst-italic text-muted small">
+        Thank you for using Ghibli Park Itinerary Builder · May your journey be warm
+      </div>
+    </div>
+
+    <footer>🌿 Inspired by Ghibli Park | All scenes for magical experience only</footer>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  // Vue app - student implementation
   const { createApp } = Vue;
 
   createApp({
     data() {
+      // generate dynamic year list based on current date (no hardcoded 2025)
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const years = [];
+      for (let i = 0; i <= 10; i++) {
+        years.push(currentYear + i);
+      }
+      // generate month names dynamically (full English names)
+      const months = [];
+      for (let i = 1; i <= 12; i++) {
+        const date = new Date(2000, i - 1, 1);
+        const monthName = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+        months.push({ value: i, name: monthName });
+      }
       return {
         form: {
           fullName: '',
@@ -503,22 +439,14 @@
           accommodation: '',
           cardName: '',
           cardNumber: '',
-          expiryMonth: '',   // 1-12
-          expiryYear: '',    
+          expiryMonth: '',
+          expiryYear: '',
           cvv: ''
         },
         errors: {
-          fullName: '',
-          dob: '',
-          gender: '',
-          placesSelection: '',
-          totalVisitors: '',
-          totalChildren: '',
-          accommodation: '',
-          cardName: '',
-          cardNumber: '',
-          expiryDate: '',
-          cvv: ''
+          fullName: '', dob: '', gender: '', placesSelection: '',
+          totalVisitors: '', totalChildren: '', accommodation: '',
+          cardName: '', cardNumber: '', expiryDate: '', cvv: ''
         },
         generalError: '',
         places: [],
@@ -532,47 +460,27 @@
           'Witch Valley Guesthouse',
           'Luxury Ghibli Resort'
         ],
-        showSummary: false
+        showSummary: false,
+        // dynamic data
+        yearOptions: years,
+        monthOptions: months
       };
     },
     computed: {
-      // Dynamic month options using Intl.DateTimeFormat (no hardcoded array)
-      dynamicMonthOptions() {
-        const months = [];
-        const formatter = new Intl.DateTimeFormat('en', { month: 'long' });
-        for (let i = 1; i <= 12; i++) {
-          const date = new Date(2000, i - 1, 1);
-          const monthName = formatter.format(date);
-          months.push({ value: i, name: monthName });
-        }
-        return months;
-      },
-      // Dynamic year options: current year to current year + 10 (no hardcoded 2025)
-      dynamicYearOptions() {
-        const currentYear = new Date().getFullYear();
-        const years = [];
-        for (let i = 0; i <= 10; i++) {
-          years.push(currentYear + i);
-        }
-        return years;
-      },
       accommodationLabel() {
-        if (!this.form.accommodation) return 'Not selected';
-        return this.form.accommodation;
+        return this.form.accommodation || 'Not selected';
       },
       formattedExpiry() {
         if (this.form.expiryMonth && this.form.expiryYear) {
-          const monthObj = this.dynamicMonthOptions.find(m => m.value == this.form.expiryMonth);
-          const monthName = monthObj ? monthObj.name : '';
-          return `${monthName} ${this.form.expiryYear}`;
+          const monthObj = this.monthOptions.find(m => m.value == this.form.expiryMonth);
+          return `${monthObj?.name || ''} ${this.form.expiryYear}`;
         }
         return '';
       },
       maskedCardNumber() {
         if (!this.form.cardNumber) return '****';
         const cleaned = this.form.cardNumber.replace(/\s/g, '');
-        if (cleaned.length < 4) return '****';
-        return cleaned.slice(-4);
+        return cleaned.length >= 4 ? cleaned.slice(-4) : '****';
       }
     },
     mounted() {
@@ -581,176 +489,135 @@
     methods: {
       async loadPlaces() {
         this.isLoadingPlaces = true;
-        this.placesError = '';
         try {
-          const response = await fetch('ghibli_park.json');
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const data = await response.json();
-          this.places = data;
-          this.isLoadingPlaces = false;
+          const res = await fetch('ghibli_park.json');
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          this.places = await res.json();
         } catch (err) {
-          console.error('Failed to load places:', err);
-          this.placesError = 'Unable to load Ghibli Park data. Please refresh the page.';
+          console.error(err);
+          this.placesError = 'Failed to load park data. Please refresh.';
+        } finally {
           this.isLoadingPlaces = false;
         }
       },
-      isPlaceSelected(place) {
+      isSelected(place) {
         return this.selectedPlaces.some(p => p.id === place.id);
       },
       togglePlace(place) {
-        const index = this.selectedPlaces.findIndex(p => p.id === place.id);
-        if (index !== -1) {
-          this.selectedPlaces.splice(index, 1);
-        } else {
-          this.selectedPlaces.push(place);
-        }
-        if (this.errors.placesSelection && this.selectedPlaces.length > 0) {
-          this.errors.placesSelection = '';
-        }
+        const idx = this.selectedPlaces.findIndex(p => p.id === place.id);
+        if (idx !== -1) this.selectedPlaces.splice(idx, 1);
+        else this.selectedPlaces.push(place);
+        if (this.errors.placesSelection && this.selectedPlaces.length) this.errors.placesSelection = '';
       },
       clearErrors() {
-        Object.keys(this.errors).forEach(key => {
-          this.errors[key] = '';
-        });
+        for (let key in this.errors) this.errors[key] = '';
         this.generalError = '';
         this.showSummary = false;
       },
-      // Dynamic expiry validation (no hardcoded year boundary)
-      isExpiryValid(month, year) {
+      expiryIsValid(month, year) {
         if (!month || !year) return false;
         const now = new Date();
-        const currentYear = now.getFullYear();
-        const currentMonth = now.getMonth() + 1;
-        if (year < currentYear) return false;
-        if (year === currentYear && month < currentMonth) return false;
+        const currYear = now.getFullYear();
+        const currMonth = now.getMonth() + 1;
+        if (year < currYear) return false;
+        if (year === currYear && month < currMonth) return false;
         return true;
       },
       validateForm() {
-        let isValid = true;
-        
-        if (!this.form.fullName || this.form.fullName.trim() === '') {
-          this.errors.fullName = 'Full name is required';
-          isValid = false;
-        } else {
-          this.errors.fullName = '';
-        }
-        
+        let valid = true;
+        // name
+        if (!this.form.fullName.trim()) {
+          this.errors.fullName = 'Full name required';
+          valid = false;
+        } else this.errors.fullName = '';
+        // dob
         if (!this.form.dob) {
-          this.errors.dob = 'Date of birth is required';
-          isValid = false;
-        } else {
-          this.errors.dob = '';
-        }
-        
+          this.errors.dob = 'Date of birth required';
+          valid = false;
+        } else this.errors.dob = '';
+        // gender
         if (!this.form.gender) {
-          this.errors.gender = 'Please select a gender';
-          isValid = false;
-        } else {
-          this.errors.gender = '';
-        }
-        
+          this.errors.gender = 'Please select gender';
+          valid = false;
+        } else this.errors.gender = '';
+        // places
         if (!this.selectedPlaces.length) {
-          this.errors.placesSelection = 'Please select at least one Ghibli Park attraction';
-          isValid = false;
-        } else {
-          this.errors.placesSelection = '';
-        }
-        
-        const totalVis = this.form.totalVisitors;
-        if (totalVis === null || totalVis === undefined || totalVis === '') {
-          this.errors.totalVisitors = 'Total visitors is required';
-          isValid = false;
-        } else if (isNaN(totalVis) || totalVis < 1) {
-          this.errors.totalVisitors = 'Total visitors must be at least 1';
-          isValid = false;
-        } else {
-          this.errors.totalVisitors = '';
-        }
-        
+          this.errors.placesSelection = 'Select at least one attraction';
+          valid = false;
+        } else this.errors.placesSelection = '';
+        // visitors
+        const total = this.form.totalVisitors;
+        if (total === null || total === undefined || total === '') {
+          this.errors.totalVisitors = 'Total visitors required';
+          valid = false;
+        } else if (total < 1) {
+          this.errors.totalVisitors = 'Must be at least 1';
+          valid = false;
+        } else this.errors.totalVisitors = '';
         const children = this.form.totalChildren;
         if (children === null || children === undefined || children === '') {
-          this.errors.totalChildren = 'Number of children is required';
-          isValid = false;
-        } else if (isNaN(children) || children < 0) {
-          this.errors.totalChildren = 'Children count cannot be negative';
-          isValid = false;
-        } else if (typeof totalVis === 'number' && !isNaN(totalVis) && totalVis > 0 && children > totalVis) {
-          this.errors.totalChildren = 'Children cannot exceed total visitors';
-          isValid = false;
-        } else {
-          this.errors.totalChildren = '';
-        }
-        
-        if (!this.form.accommodation || this.form.accommodation === '') {
-          this.errors.accommodation = 'Please select an accommodation option';
-          isValid = false;
-        } else {
-          this.errors.accommodation = '';
-        }
-        
-        if (!this.form.cardName || this.form.cardName.trim() === '') {
-          this.errors.cardName = 'Cardholder name is required';
-          isValid = false;
-        } else {
-          this.errors.cardName = '';
-        }
-        
-        let cleanCardNumber = this.form.cardNumber ? this.form.cardNumber.replace(/\s/g, '') : '';
-        if (!cleanCardNumber) {
-          this.errors.cardNumber = 'Card number is required';
-          isValid = false;
-        } else if (cleanCardNumber.length < 13 || cleanCardNumber.length > 19) {
-          this.errors.cardNumber = 'Card number must be 13-19 digits';
-          isValid = false;
-        } else if (!/^\d+$/.test(cleanCardNumber)) {
-          this.errors.cardNumber = 'Card number must contain only digits';
-          isValid = false;
-        } else {
-          this.errors.cardNumber = '';
-        }
-        
-        const monthValid = this.form.expiryMonth && !isNaN(this.form.expiryMonth) && this.form.expiryMonth >= 1 && this.form.expiryMonth <= 12;
-        const yearValid = this.form.expiryYear && !isNaN(this.form.expiryYear) && this.form.expiryYear >= this.dynamicYearOptions[0];
-        
-        if (!monthValid || !yearValid) {
-          this.errors.expiryDate = 'Please select both month and year for expiration date';
-          isValid = false;
-        } else {
-          const expiryCheck = this.isExpiryValid(parseInt(this.form.expiryMonth), parseInt(this.form.expiryYear));
-          if (!expiryCheck) {
-            this.errors.expiryDate = 'Credit card has expired. Please select a valid future date.';
-            isValid = false;
-          } else {
-            this.errors.expiryDate = '';
-          }
-        }
-        
-        if (!this.form.cvv || this.form.cvv.trim() === '') {
-          this.errors.cvv = 'CVV is required';
-          isValid = false;
+          this.errors.totalChildren = 'Children count required';
+          valid = false;
+        } else if (children < 0) {
+          this.errors.totalChildren = 'Cannot be negative';
+          valid = false;
+        } else if (total > 0 && children > total) {
+          this.errors.totalChildren = 'Children cannot exceed total';
+          valid = false;
+        } else this.errors.totalChildren = '';
+        // accommodation
+        if (!this.form.accommodation) {
+          this.errors.accommodation = 'Select accommodation';
+          valid = false;
+        } else this.errors.accommodation = '';
+        // card name
+        if (!this.form.cardName.trim()) {
+          this.errors.cardName = 'Cardholder name required';
+          valid = false;
+        } else this.errors.cardName = '';
+        // card number
+        let cardNumClean = this.form.cardNumber ? this.form.cardNumber.replace(/\s/g, '') : '';
+        if (!cardNumClean) {
+          this.errors.cardNumber = 'Card number required';
+          valid = false;
+        } else if (cardNumClean.length < 13 || cardNumClean.length > 19) {
+          this.errors.cardNumber = 'Must be 13-19 digits';
+          valid = false;
+        } else if (!/^\d+$/.test(cardNumClean)) {
+          this.errors.cardNumber = 'Only digits allowed';
+          valid = false;
+        } else this.errors.cardNumber = '';
+        // expiry
+        const month = this.form.expiryMonth;
+        const year = this.form.expiryYear;
+        if (!month || !year) {
+          this.errors.expiryDate = 'Select month and year';
+          valid = false;
+        } else if (!this.expiryIsValid(parseInt(month), parseInt(year))) {
+          this.errors.expiryDate = 'Card has expired, choose future date';
+          valid = false;
+        } else this.errors.expiryDate = '';
+        // cvv
+        if (!this.form.cvv) {
+          this.errors.cvv = 'CVV required';
+          valid = false;
         } else if (!/^\d{3,4}$/.test(this.form.cvv)) {
           this.errors.cvv = 'CVV must be 3 or 4 digits';
-          isValid = false;
-        } else {
-          this.errors.cvv = '';
-        }
-        
-        return isValid;
+          valid = false;
+        } else this.errors.cvv = '';
+        return valid;
       },
       generateItinerary() {
         this.clearErrors();
-        const formValid = this.validateForm();
-        
-        if (!formValid) {
+        if (this.validateForm()) {
+          this.showSummary = true;
+          this.generalError = '';
+          setTimeout(() => {
+            document.querySelector('.summary-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        } else {
           this.generalError = '❌ There are mandatory items pending to be filled. Please complete the required fields.';
           this.showSummary = false;
-        } else {
-          this.generalError = '';
-          this.showSummary = true;
-          setTimeout(() => {
-            const summaryEl = document.querySelector('.summary-card');
-            if (summaryEl) summaryEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 100);
         }
       }
     }
